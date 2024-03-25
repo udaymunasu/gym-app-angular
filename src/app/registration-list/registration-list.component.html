@@ -1,0 +1,33 @@
+<div class="container">
+  <button routerLink="/register" mat-raised-button color="accent">
+    <i class="fa fa-arrow-left" aria-hidden="true"></i> Back to Registration
+  </button>
+
+  <input #filterInput (input)="applyFilter(filterInput.value)" placeholder="Ex. Firstname" />
+
+
+</div>
+
+<div class="container">
+  <table class="custom-table">
+    <thead>
+      <tr>
+        <th *ngFor="let column of displayedColumns" >{{ column }}</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let user of filteredData; let i = index">
+        <td *ngFor="let column of displayedColumns" (click)="onCellClick(i, column)" [ngClass]="{ 'editable': editingRow === i && editingColumn === column }">
+          <ng-container *ngIf="!isEditing(i, column)">
+            {{ user[column] }}
+          </ng-container>
+          <ng-container *ngIf="isEditing(i, column)">
+            <input type="text" [(ngModel)]="user[column]" (blur)="onBlur(user)">
+          </ng-container>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <mat-paginator [pageSizeOptions]="[10, 25, 100]" aria-label="Select page of users"></mat-paginator>
+</div>
